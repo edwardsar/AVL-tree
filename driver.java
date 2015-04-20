@@ -20,6 +20,18 @@ public class driver {
 		System.out.println("  Testing getHeight: ");
 		System.out.println("   t.getHeight() = " + t.getHeight());
 
+// ==== Test for AVL Tree class ====
+		
+		avlTree<Integer> tree = new avlTree<Integer>();
+		System.out.println("\n==== Tests for avlTree class ====");
+		System.out.println("Inserting: 1, 1, 2, 3, 4");
+		tree.insert(1);
+		tree.insert(1);
+		tree.insert(2);
+		tree.insert(3);
+		tree.insert(4);
+		tree.print();
+		System.out.println("Tree size: " + tree.size());
 	}
 
 }
