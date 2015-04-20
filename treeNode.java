@@ -55,8 +55,16 @@ public class treeNode< T > {
 		this.rightNode = right;
 	}
 // ==== setHeight() ====
-	public void setHeight(int h){
-		this.height = h;
+	public void setHeight(int height){
+		this.height = height;
+	}
+// ==== incrementHeightByOne() ====
+	public void incrementHeight(int h){
+		this.height++;
+	}
+// ==== decrementHeightByOne() ====
+	public void decrementHeight(){
+		this.height--;
 	}
 
 // ==== constructors ====
