@@ -30,30 +30,76 @@ public class avlTree< T extends Comparable<T> >{
 			reverseOrderTraversal(current.getLeftNode(),fptr);
 		}
 	}
+
 // ==== insert() ====
 // Note to self: java passes by value, even references. No manipulating pointer in recursion.
-	private void insertRecursiveHelper(T data, treeNode<T> current){
-		if(current.getData().compareTo(data) == 0){       // case: obj1 equals obj2
-			return;
+	private treeNode<T> insertRecursiveHelper(T data, treeNode<T> currentNode){
+		if(currentNode.getData().compareTo(data) == 0){       // case: obj1 equals obj2
+			return currentNode;
 		}
-		else if(current.getData().compareTo(data) < 0 ){ // case: obj1 less than obj2 
-			if(current.hasRight()){
-				insertRecursiveHelper(data, current.getRightNode());
+		else if(currentNode.getData().compareTo(data) < 0 ){ // case: obj1 less than obj2 
+			if(currentNode.hasRight()){
+				currentNode.setRightNode( insertRecursiveHelper(data, currentNode.getRightNode()) );
 			}
 			else{
-				current.setRightNode(new treeNode<T>(data));
+				currentNode.setRightNode(new treeNode<T>(data));
 				size++;
 			}
+			currentNode.incrementHeightByOne();
 		}
-		else if(current.getData().compareTo(data) > 0){ // case: obj1 greater than obj2
-			if(current.hasLeft()){
-				insertRecursiveHelper(data, current.getLeftNode());
+		else if(currentNode.getData().compareTo(data) > 0){ // case: obj1 greater than obj2
+			if(currentNode.hasLeft()){
+				currentNode.setLeftNode( insertRecursiveHelper(data, currentNode.getLeftNode()) );
 			}
 			else{
-				current.setLeftNode(new treeNode<T>(data));
+				currentNode.setLeftNode(new treeNode<T>(data));
 				size++;
 			}
+			currentNode.decrementHeightByOne();
 		}
+
+		// ---- check for balance ----
+		if(currentNode.getHeight() <= -2){ // heavy on the left
+			treeNode<T> tempNode = currentNode.getLeftNode();
+			// **** right rotation ****
+			if(tempNode.getHeight() == -1){
+				tempNode.setRightNode(currentNode);
+				currentNode.setLeftNode(null);
+				currentNode.zeroHeight();
+				tempNode.zeroHeight();
+			}
+			// **** right left rotation ****
+			else if( tempNode.getHeight() == 1){
+				tempNode.setLeftNode(tempNode.getRightNode());
+				tempNode.setRightNode(currentNode);
+				currentNode.setLeftNode(null);
+				currentNode.zeroHeight();
+				tempNode.zeroHeight();
+			}
+
+			return tempNode;
+		}
+		else if(currentNode.getHeight() >= 2){ // heavy on the right
+			treeNode<T> tempNode = currentNode.getRightNode();
+			// **** left rotation ****
+			if(tempNode.getHeight() == 1){
+				tempNode.setLeftNode(currentNode);
+				currentNode.setRightNode(null);
+				currentNode.zeroHeight();
+				tempNode.zeroHeight();
+			}
+			// **** left right rotation ****
+			else if(tempNode.getHeight() == -1){
+				tempNode.setRightNode(tempNode.getLeftNode());
+				tempNode.setLeftNode(currentNode);
+				currentNode.setRightNode(null);
+				currentNode.zeroHeight();
+				tempNode.zeroHeight();
+			}
+			return tempNode;
+		}
+		
+		return currentNode;
 	}
 	public void insert(T data){
 		if(root == null){
@@ -61,8 +107,25 @@ public class avlTree< T extends Comparable<T> >{
 			size++;
 		}
 		else{
-			insertRecursiveHelper(data, root);
+			root = insertRecursiveHelper(data, root);
 		}
+	}
+// ==== calcHeight() ====
+	private int calcHeight(treeNode<T> left, treeNode<T> right){
+		int x, y;
+		if(left != null){
+			x = left.getHeight();
+		}
+		else{
+			x = -1;
+		}
+		if(right != null){
+			y = right.getHeight();
+		}
+		else{
+			y = -1;
+		}
+		return x - y;
 	}
 // ==== printInOrder() ====
 	public void printInOrder(){
@@ -83,19 +146,21 @@ public class avlTree< T extends Comparable<T> >{
 		System.out.println();	
 	}
 // ==== printHierarchy() ====
-	private void printHierarchyRecursiveHelper(String formatingString, treeNode<T> current){
-		System.out.println(current.getData().toString());		
-		if(current.hasLeft()){
+	private void printHierarchyRecursiveHelper(String formatingString, treeNode<T> currentNode){
+		System.out.println(currentNode.getData().toString() + " :H-> " + currentNode.getHeight());		
+		if(currentNode.hasLeft()){
+			System.out.println(formatingString + "|");
 			System.out.print(formatingString );
 			System.out.print("|~~");
-			printHierarchyRecursiveHelper( formatingString + "|  ", current.getLeftNode());
+			printHierarchyRecursiveHelper( formatingString + "|  ", currentNode.getLeftNode());
 		}
-		if(current.hasRight()){
+		if(currentNode.hasRight()){
 			System.out.print(formatingString );
 			System.out.print("|~~");
-			printHierarchyRecursiveHelper( formatingString + "   ", current.getRightNode());
+			printHierarchyRecursiveHelper( formatingString + "   ", currentNode.getRightNode());
 			System.out.println(formatingString);
 		}
+		
 		
 	}
 	public void printHierarchy(){
