@@ -54,10 +54,14 @@ public class treeNode< T > {
 	public void setRightNode(treeNode<T> right){
 		this.rightNode = right;
 	}
-// ==== setHeight() ====
+// ==== zeroHeight() ====
+	public void zeroHeight(){
+		this.height = 0;
+	}
+// ==== zeroHeight() ====
 	public void setHeight(int height){
 		this.height = height;
-	}
+}
 // ==== incrementHeightByOne() ====
 	public void incrementHeightByOne(){
 		this.height++;
