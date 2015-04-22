@@ -22,16 +22,33 @@ public class driver {
 
 // ==== Test for AVL Tree class ====
 		
-		avlTree<Integer> tree = new avlTree<Integer>();
+		avlTree<Integer> intTree = new avlTree<Integer>();
 		System.out.println("\n==== Tests for avlTree class ====");
-		System.out.println("Inserting: 1, 1, 2, 3, 4");
-		tree.insert(1);
-		tree.insert(1);
-		tree.insert(2);
-		tree.insert(3);
-		tree.insert(4);
-		tree.print();
-		System.out.println("Tree size: " + tree.size());
+		System.out.println("---- Creating tree of integers ----");
+		System.out.println("Inserting: 8, 8, 4, 2, 6, 1, 3, 5, 7, 12, 10, 14, 9, 11, 13, 15");
+		intTree.insert(8);
+		intTree.insert(4);
+		intTree.insert(2);
+		intTree.insert(6);
+		intTree.insert(1);
+		intTree.insert(3);
+		intTree.insert(5);
+		intTree.insert(7);
+		intTree.insert(12);
+		intTree.insert(10);
+		intTree.insert(14);
+		intTree.insert(9);
+		intTree.insert(11);
+		intTree.insert(13);
+		intTree.insert(15);
+		System.out.println("Tree size: " + intTree.size() + " duplicate data is not inserted");
+		System.out.println("Printing elements of Tree in order: ");
+		intTree.printInOrder();
+		System.out.println("Printing elements of Tree in reverse order: ");
+		intTree.printReverseOrder();
+		System.out.println("Printing Tree Heigherarchy: ");
+		intTree.printHierarchy();
+		
 	}
 
 }
