@@ -23,6 +23,7 @@ public class driver {
 // ==== Test for AVL Tree class ====
 		
 		avlTree<Integer> intTree = new avlTree<Integer>();
+/*
 		System.out.println("\n==== Tests for avlTree class ====");
 		System.out.println("---- Creating tree of integers ----");
 		System.out.println("Inserting: 8, 8, 4, 2, 6, 1, 3, 5, 7, 12, 10, 14, 9, 11, 13, 15");
@@ -48,6 +49,17 @@ public class driver {
 		intTree.printReverseOrder();
 		System.out.println("Printing Tree Heigherarchy: ");
 		intTree.printHierarchy();
+*/		
+		System.out.println("==== creating tree of Doubles ====\n");
+		avlTree<Integer> doubleTree = new avlTree<Integer>();
+		doubleTree.insert(8);
+		doubleTree.printHierarchy();
+		doubleTree.insert(1);
+		doubleTree.printHierarchy();
+		doubleTree.insert(7);
+		//doubleTree.insert(6);
+		//doubleTree.insert(5);
+		doubleTree.printHierarchy();
 		
 	}
 
