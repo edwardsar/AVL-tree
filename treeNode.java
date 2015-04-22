@@ -59,7 +59,7 @@ public class treeNode< T > {
 		this.height = height;
 	}
 // ==== incrementHeightByOne() ====
-	public void incrementHeightByOne(int h){
+	public void incrementHeightByOne(){
 		this.height++;
 	}
 // ==== decrementHeightByOne() ====
