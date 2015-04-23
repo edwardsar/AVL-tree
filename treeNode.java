@@ -54,14 +54,6 @@ public class treeNode< T > {
 	public void setRightNode(treeNode<T> right){
 		this.rightNode = right;
 	}
-// ==== zeroHeight() ====
-	public void zeroHeight(){
-		this.height = 0;
-	}
-// ==== zeroHeight() ====
-	public void setHeight(int height){
-		this.height = height;
-}
 // ==== incrementHeightByOne() ====
 	public void incrementHeightByOne(){
 		this.height++;
@@ -70,7 +62,39 @@ public class treeNode< T > {
 	public void decrementHeightByOne(){
 		this.height--;
 	}
-
+	public void zeroHeight(){
+		this.height =0;
+	}
+// ==== computeNewHeight() ====
+	public void computeNewHeight(){
+		int x, y;
+		x = this.getRightsHeight();
+		y = this.getLeftsHeight();
+		if(x < y){
+			this.height = y + 1;
+		}
+		else{
+			this.height = x + 1;
+		}
+	}
+// ==== getLeftsHeight() ====
+	public int getLeftsHeight(){
+		if(this.hasLeft()){
+			return this.getLeftNode().getHeight();
+		}
+		else{
+			return 0;
+		}
+	}
+// ==== getRightsHeight() ====
+	public int getRightsHeight(){
+		if(this.hasRight()){
+			return this.getRightNode().getHeight();
+		}
+		else{
+			return 0;
+		}
+	}
 // ==== constructors ====
 	public treeNode(T data){
 		this(data,null,null);
@@ -79,7 +103,7 @@ public class treeNode< T > {
 		this.data = data;
 		this.leftNode = left;
 		this.rightNode = right;
-		this.height = 0;
+		this.height = 1;
 	}
 	public treeNode(treeNode<T> sourceOfCopy ){
 		this.data = sourceOfCopy.data;
