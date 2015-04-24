@@ -34,10 +34,11 @@ public class avlTree< T extends Comparable<T> >{
 // ==== insert() ====
 // Note to self: java passes by value, even references. No directly manipulating pointer in recursion.
 	private treeNode<T> insertRecursiveHelper(T data, treeNode<T> currentNode){
-		if(currentNode.getData().compareTo(data) == 0){       // case: obj1 equals obj2
+		int compareResult = currentNode.getData().compareTo(data);
+		if(compareResult == 0){       // case: obj1 is equals obj2
 			return currentNode;
 		}
-		else if(currentNode.getData().compareTo(data) < 0 ){ // case: obj1 less than obj2 
+		else if(compareResult < 0 ){ // case: obj1 is less than obj2 
 			if(currentNode.hasRight()){
 				currentNode.setRightNode( insertRecursiveHelper(data, currentNode.getRightNode()) );
 				currentNode.incrementHeightByOne();
@@ -47,7 +48,7 @@ public class avlTree< T extends Comparable<T> >{
 				size++;
 			}
 		}
-		else if(currentNode.getData().compareTo(data) > 0){ // case: obj1 greater than obj2
+		else if(compareResult > 0){ // case: obj1 is greater than obj2
 			if(currentNode.hasLeft()){
 				currentNode.setLeftNode( insertRecursiveHelper(data, currentNode.getLeftNode()) );
 				currentNode.incrementHeightByOne();
@@ -130,7 +131,7 @@ public class avlTree< T extends Comparable<T> >{
 		} );
 		System.out.println();	
 	}
-// ==== printHierarchy()  && helper====
+// ==== printHierarchy()  && PrintHeirarchyRecursivehelper()====
 	public void printHierarchy(){
 		if( root != null){
 			printHierarchyRecursiveHelper("",root);
@@ -153,7 +154,93 @@ public class avlTree< T extends Comparable<T> >{
 		
 		
 	}
+// ==== remove() && removeRecursiveHelper() ====
+	private treeNode<T> removeRecursiveHelper(T data, treeNode<T> currentNode){
+		int compareResult = currentNode.getData().compareTo(data);
+		if(compareResult == 0){       // case: obj1 is equals obj2
+			return currentNode;
+		}
+		else if(compareResult < 0 ){ // case: obj1 is less than obj2 
+			if(currentNode.hasRight()){
+				currentNode.setRightNode( removeRecursiveHelper(data, currentNode.getRightNode()) );
+				currentNode.computeNewHeight();
+			}
 
+		}
+		else if(compareResult > 0){ // case: obj1 is greater than obj2
+			if(currentNode.hasLeft()){
+				currentNode.setLeftNode( removeRecursiveHelper(data, currentNode.getLeftNode()) );
+				currentNode.computeNewHeight();
+			}
+		
+		}
+		currentNode.computeNewHeight();
+		return currentNode;
+	}
+	public void remove(T data){
+		if( root == null){
+			return;
+		}
+		else{
+			if(searchRecursiveHelper(data,root)){
+				if(root.getData().compareTo(data) == 0){
+					int numberOfSubtrees = root.getNumberOfSubtrees();
+					if( numberOfSubtrees == 0){
+						root = null;
+						size--;
+					}
+					else if( numberOfSubtrees == 1){
+						if(root.hasLeft()){
+							root = root.getLeftNode();
+						}
+						else{
+							root = root.getRightNode();
+						}
+					}
+					else if(numberOfSubtrees == 2){
+						// find the largest data of the left sub
+					}
+				}
+				root = removeRecursiveHelper(data, root);
+			}
+			else{
+				return;
+			}
+			
+		}
+	}
+// ==== search && searchRecursiveHelper() ====
+	private boolean searchRecursiveHelper(T data, treeNode<T> currentNode){
+		int compareResult = currentNode.getData().compareTo(data);
+		if(compareResult == 0){ // obj1 is equals obj2
+			return true;
+		}
+		else if(compareResult < 0){ // obj1 is less than obj2
+			if(currentNode.hasRight()){
+				return searchRecursiveHelper(data, currentNode.getRightNode());
+			}
+			else{
+				return false;
+			}
+		}
+		else if(compareResult > 0){ // obj1 is greater than obj2
+			if(currentNode.hasLeft()){
+				return searchRecursiveHelper(data, currentNode.getLeftNode());
+			}
+			else{
+				return false;
+			}
+		}
+		return false;
+	}
+	public boolean search(T data){
+		if(root == null){
+			return false;
+		}
+		else{
+			return searchRecursiveHelper(data, root);
+		}
+	}
 // ==== constructors ====
 	public avlTree(){
 		this.root = null;
@@ -161,7 +248,7 @@ public class avlTree< T extends Comparable<T> >{
 		this.fullFlag = false;
 	}
 // ==== isFull() ====	
-	public boolean isFull(){
+	public boolean isFull(){ // TODO
 		return fullFlag;
 	}
 // ==== size() ====
