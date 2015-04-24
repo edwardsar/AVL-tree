@@ -95,6 +95,17 @@ public class treeNode< T > {
 			return 0;
 		}
 	}
+// ==== getNumberOfSubtrees() ====
+	public int getNumberOfSubtrees(){
+		int numOfSubtree = 0;
+		if(this.hasLeft()){
+			numOfSubtree++;
+		}
+		if(this.hasRight()){
+			numOfSubtree++;
+		}
+		return numOfSubtree;
+	}
 // ==== constructors ====
 	public treeNode(T data){
 		this(data,null,null);
