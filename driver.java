@@ -109,6 +109,18 @@ public class driver {
 		stringTree.insert("d");
 		stringTree.printHierarchy();
 		System.out.println("=============================");
+		
+		System.out.println("==== testing search ====");
+		avlTree<Integer> searchTestTree = new avlTree<Integer>();
+		System.out.println("Inserting: 2, 1, 4, 3, 5, 6");
+		searchTestTree.insert(2);
+		searchTestTree.insert(1);
+		searchTestTree.insert(4);
+		searchTestTree.insert(3);
+		searchTestTree.insert(5);
+		searchTestTree.insert(6);
+		System.out.println("searchTestTree.search(3) = " + searchTestTree.search(3));
+		System.out.println("searchTestTree.search(10) = " + searchTestTree.search(10));
 	}
 
 }
