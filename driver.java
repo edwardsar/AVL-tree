@@ -121,6 +121,10 @@ public class driver {
 		searchTestTree.insert(6);
 		System.out.println("searchTestTree.search(3) = " + searchTestTree.search(3));
 		System.out.println("searchTestTree.search(10) = " + searchTestTree.search(10));
+		System.out.println("---- testing remove ----");
+		searchTestTree.remove(0);
+		//searchTestTree.remove(3);
+		searchTestTree.printHierarchy();
 	}
 
 }
