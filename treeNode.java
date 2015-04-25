@@ -95,6 +95,10 @@ public class treeNode< T > {
 			return 0;
 		}
 	}
+// ==== getBalanceFactor ====
+	public int getBalanceFactor(){
+		return this.getLeftsHeight() - this.getRightsHeight();
+	}
 // ==== getNumberOfSubtrees() ====
 	public int getNumberOfSubtrees(){
 		int numOfSubtree = 0;
