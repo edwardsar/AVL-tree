@@ -123,7 +123,7 @@ public class driver {
 		System.out.println("searchTestTree.search(10) = " + searchTestTree.search(10));
 		System.out.println("---- testing remove ----");
 		searchTestTree.remove(0);
-		//searchTestTree.remove(3);
+		searchTestTree.remove(4);
 		searchTestTree.printHierarchy();
 	}
 
