@@ -138,7 +138,7 @@ public class avlTree< T extends Comparable<T> >{
 		}
 	}
 	private void printHierarchyRecursiveHelper(String formatingString, treeNode<T> currentNode){
-		System.out.println(currentNode.getData().toString());		
+		System.out.println(currentNode.getData().toString() + ":> " + currentNode.getHeight());		
 		if(currentNode.hasLeft()){
 			System.out.println(formatingString + "|");
 			System.out.print(formatingString );
@@ -154,27 +154,56 @@ public class avlTree< T extends Comparable<T> >{
 		
 		
 	}
+// ==== getSuccessor ====
+	public treeNode<T> getSuccessor(treeNode<T> currentNode	){
+		return null;
+	}
 // ==== remove() && removeRecursiveHelper() ====
 	private treeNode<T> removeRecursiveHelper(T data, treeNode<T> currentNode){
 		int compareResult = currentNode.getData().compareTo(data);
 		if(compareResult == 0){       // case: obj1 is equals obj2
-			return currentNode;
+			int numberOfSubtrees = currentNode.getNumberOfSubtrees();
+			if( numberOfSubtrees == 0){
+				return null;
+			}
+			else if(numberOfSubtrees == 1){
+				if(currentNode.hasLeft()){
+					return currentNode.getLeftNode();
+				}
+				else{
+					return currentNode.getRightNode();
+				}
+			}
+			else{
+				return getSuccessor(currentNode);
+			}
 		}
 		else if(compareResult < 0 ){ // case: obj1 is less than obj2 
 			if(currentNode.hasRight()){
 				currentNode.setRightNode( removeRecursiveHelper(data, currentNode.getRightNode()) );
-				currentNode.computeNewHeight();
+			}
+			else{
+				return currentNode;
 			}
 
 		}
 		else if(compareResult > 0){ // case: obj1 is greater than obj2
 			if(currentNode.hasLeft()){
 				currentNode.setLeftNode( removeRecursiveHelper(data, currentNode.getLeftNode()) );
-				currentNode.computeNewHeight();
+			}
+			else{
+				return currentNode;
 			}
 		
 		}
 		currentNode.computeNewHeight();
+		int balanceFactor = currentNode.getLeftsHeight() - currentNode.getRightsHeight();
+		if(balanceFactor == 2){ // heavy on left
+			// TODO
+		}
+		else if(balanceFactor == -2){ // heavy on right
+			// TODO
+		}
 		return currentNode;
 	}
 	public void remove(T data){
@@ -182,31 +211,7 @@ public class avlTree< T extends Comparable<T> >{
 			return;
 		}
 		else{
-			if(searchRecursiveHelper(data,root)){
-				if(root.getData().compareTo(data) == 0){
-					int numberOfSubtrees = root.getNumberOfSubtrees();
-					if( numberOfSubtrees == 0){
-						root = null;
-						size--;
-					}
-					else if( numberOfSubtrees == 1){
-						if(root.hasLeft()){
-							root = root.getLeftNode();
-						}
-						else{
-							root = root.getRightNode();
-						}
-					}
-					else if(numberOfSubtrees == 2){
-						// find the largest data of the left sub
-					}
-				}
-				root = removeRecursiveHelper(data, root);
-			}
-			else{
-				return;
-			}
-			
+			root = removeRecursiveHelper(data, root);
 		}
 	}
 // ==== search && searchRecursiveHelper() ====
